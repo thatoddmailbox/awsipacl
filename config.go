@@ -9,6 +9,9 @@ import (
 type config struct {
 	PasswordHash string
 
+	SecurityGroupID string
+	Region          string
+
 	Title       string
 	Description string
 }

@@ -1,4 +1,7 @@
 PasswordHash = "asdf"
 
+SecurityGroupID = "sg-some-id-yay"
+Region = "us-east-2"
+
 Title = "awsipacl"
 Description = "This is a description, wow."
