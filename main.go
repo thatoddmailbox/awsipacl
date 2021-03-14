@@ -16,7 +16,7 @@ import (
 var frontend embed.FS
 
 var mimeTypes = map[string]string{
-	".html": "text/html",
+	".html": "text/html; charset=utf-8",
 	".js":   "application/javascript",
 	".css":  "text/css",
 }
