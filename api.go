@@ -4,15 +4,20 @@ import (
 	"context"
 	"encoding/json"
 	"net/url"
+	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
-	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
 type errorResponse struct {
 	Status string `json:"status"`
 	Error  string `json:"error"`
+}
+
+type ipEntry struct {
+	IP          string `json:"ip"`
+	Description string `json:"description"`
 }
 
 type loginResponse struct {
@@ -21,7 +26,9 @@ type loginResponse struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 
-	IpPermissions []types.IpPermission `json:"ips"`
+	ClientIP string `json:"clientIP"`
+
+	IPs []ipEntry `json:"ips"`
 }
 
 func jsonResponse(data interface{}) (events.APIGatewayV2HTTPResponse, error) {
@@ -59,12 +66,39 @@ func routeLogin(context context.Context, request events.APIGatewayV2HTTPRequest,
 
 	securityGroup := result.SecurityGroups[0]
 
+	ipList := []ipEntry{}
+
+	for _, permission := range securityGroup.IpPermissions {
+		if permission.FromPort != int32(currentConfig.Port) || permission.ToPort != int32(currentConfig.Port) {
+			continue
+		}
+
+		for _, ipRange := range permission.IpRanges {
+			cidrIP := *ipRange.CidrIp
+			if !strings.HasSuffix(cidrIP, "/32") {
+				continue
+			}
+
+			description := ""
+			if ipRange.Description != nil {
+				description = *ipRange.Description
+			}
+
+			ipList = append(ipList, ipEntry{
+				IP:          strings.Split(cidrIP, "/")[0],
+				Description: description,
+			})
+		}
+	}
+
 	return jsonResponse(loginResponse{
 		Status: "ok",
 
 		Title:       currentConfig.Title,
 		Description: currentConfig.Description,
 
-		IpPermissions: securityGroup.IpPermissions,
+		ClientIP: request.RequestContext.HTTP.SourceIP,
+
+		IPs: ipList,
 	})
 }

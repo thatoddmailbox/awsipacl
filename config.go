@@ -11,6 +11,8 @@ type config struct {
 
 	SecurityGroupID string
 	Region          string
+	Port            int32
+	Protocol        string
 
 	Title       string
 	Description string
