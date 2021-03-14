@@ -137,7 +137,43 @@ func routeAdd(context context.Context, request events.APIGatewayV2HTTPRequest, d
 		},
 	})
 	if err != nil {
-		// panic(err)
+		return jsonResponse(errorResponse{
+			Status: "error",
+			Error:  err.Error(),
+		})
+	}
+
+	return jsonResponse(statusResponse{"ok"})
+}
+
+func routeDelete(context context.Context, request events.APIGatewayV2HTTPRequest, data url.Values, svc *ec2.Client) (events.APIGatewayV2HTTPResponse, error) {
+	if data.Get("password") != currentConfig.PasswordHash {
+		return jsonResponse(errorResponse{
+			Status: "error",
+			Error:  "Incorrect password.",
+		})
+	}
+
+	ip := data.Get("ip") + "/32"
+
+	_, err := svc.RevokeSecurityGroupIngress(context, &ec2.RevokeSecurityGroupIngressInput{
+		GroupId: &currentConfig.SecurityGroupID,
+
+		IpPermissions: []types.IpPermission{
+			{
+				FromPort:   currentConfig.Port,
+				ToPort:     currentConfig.Port,
+				IpProtocol: &currentConfig.Protocol,
+				IpRanges: []types.IpRange{
+					{
+						CidrIp:      &ip,
+						Description: nil,
+					},
+				},
+			},
+		},
+	})
+	if err != nil {
 		return jsonResponse(errorResponse{
 			Status: "error",
 			Error:  err.Error(),
