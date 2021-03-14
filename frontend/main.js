@@ -1,7 +1,12 @@
 window.addEventListener("load", function() {
 	document.getElementById("test").addEventListener("click", function() {
+		var password = document.getElementById("password").value;
+		var params = new URLSearchParams();
+		params.set("password", password);
+
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "/login");
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4) {
 				var response = xhr.responseText;
@@ -9,6 +14,6 @@ window.addEventListener("load", function() {
 				console.log(JSON.parse(response));
 			}
 		};
-		xhr.send();
+		xhr.send(params);
 	});
 });
