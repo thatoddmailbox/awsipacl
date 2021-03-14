@@ -23,9 +23,12 @@ function screen(name) {
 }
 
 function login(callback) {
+	setLoading(true);
 	api("login", {
 		password: password
 	}, function(data) {
+		setLoading(false);
+
 		if (data.status == "error") {
 			alert(data.error);
 			return;
@@ -64,6 +67,18 @@ function login(callback) {
 	});
 }
 
+function setLoading(state) {
+	var elements = document.querySelectorAll("input, button");
+	for (var i = 0; i < elements.length; i++) {
+		var element = elements[i];
+		if (state) {
+			element.setAttribute("disabled", "disabled");
+		} else {
+			element.removeAttribute("disabled");
+		}
+	}
+}
+
 window.addEventListener("load", function() {
 	document.getElementById("screenPasswordLogin").addEventListener("submit", function(e) {
 		password = document.getElementById("screenPasswordInput").value;
@@ -79,13 +94,15 @@ window.addEventListener("load", function() {
 	document.getElementById("screenMainNew").addEventListener("submit", function(e) {
 		var ip = document.getElementById("screenMainNewIP").value;
 		var description = document.getElementById("screenMainNewDescription").value;
-		console.log(e.target);
 
+		setLoading(true);
 		api("add", {
 			password: password,
 			ip: ip,
 			description: description
 		}, function(data) {
+			setLoading(false);
+
 			if (data.status == "error") {
 				alert(data.error);
 				return;
