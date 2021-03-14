@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"embed"
-	"encoding/json"
 	"errors"
 	"io/fs"
 	"io/ioutil"
@@ -23,27 +22,11 @@ var mimeTypes = map[string]string{
 	".css":  "text/css",
 }
 
-type loginResponse struct {
-	Status string `json:"status"`
-}
-
 func HandleRequest(context context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	// check if this looks like an API route
 	if request.RequestContext.HTTP.Method == http.MethodPost {
 		if request.RawPath == "/login" {
-			data, err := json.Marshal(loginResponse{"ok"})
-			if err != nil {
-				// TODO: handle better
-				panic(err)
-			}
-
-			return events.APIGatewayV2HTTPResponse{
-				StatusCode: 200,
-				Headers: map[string]string{
-					"Content-Type": "text/json",
-				},
-				Body: string(data),
-			}, nil
+			return routeLogin(context, request)
 		}
 	}
 
