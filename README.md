@@ -1,5 +1,7 @@
 # awsipacl
 ## Setup
+_Make sure you have Go 1.16 or newer installed._
+
 First, install the [AWS CLI version 2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configure it](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
 
 Then, from the Lambda console, create a new function. Select "Author from scratch", give it a name, and select "Go 1.x" as the runtime.
