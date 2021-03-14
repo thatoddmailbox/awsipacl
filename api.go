@@ -3,12 +3,21 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"net/url"
 
 	"github.com/aws/aws-lambda-go/events"
 )
 
+type errorResponse struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
+}
+
 type loginResponse struct {
 	Status string `json:"status"`
+
+	Title       string `json:"title"`
+	Description string `json:"description"`
 }
 
 func jsonResponse(data interface{}) (events.APIGatewayV2HTTPResponse, error) {
@@ -27,6 +36,17 @@ func jsonResponse(data interface{}) (events.APIGatewayV2HTTPResponse, error) {
 	}, nil
 }
 
-func routeLogin(context context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
-	return jsonResponse(loginResponse{"ok"})
+func routeLogin(context context.Context, request events.APIGatewayV2HTTPRequest, data url.Values) (events.APIGatewayV2HTTPResponse, error) {
+	if data.Get("password") != currentConfig.PasswordHash {
+		return jsonResponse(errorResponse{
+			Status: "error",
+			Error:  "Incorrect password.",
+		})
+	}
+
+	return jsonResponse(loginResponse{
+		Status:      "ok",
+		Title:       currentConfig.Title,
+		Description: currentConfig.Description,
+	})
 }
