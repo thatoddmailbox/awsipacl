@@ -1,6 +1,6 @@
 window.addEventListener("load", function() {
-	document.getElementById("test").addEventListener("click", function() {
-		var password = document.getElementById("password").value;
+	document.getElementById("screenPasswordSubmit").addEventListener("click", function() {
+		var password = document.getElementById("screenPasswordInput").value;
 		var params = new URLSearchParams();
 		params.set("password", password);
 
@@ -10,7 +10,6 @@ window.addEventListener("load", function() {
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4) {
 				var response = xhr.responseText;
-				console.log(response);
 				console.log(JSON.parse(response));
 			}
 		};
