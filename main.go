@@ -13,6 +13,9 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+
+	awsConfig "github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
 )
 
 //go:embed frontend/*
@@ -56,8 +59,15 @@ func HandleRequest(context context.Context, request events.APIGatewayV2HTTPReque
 			panic(err)
 		}
 
+		// set up the aws sdk
+		cfg, err := awsConfig.LoadDefaultConfig(context, awsConfig.WithRegion(currentConfig.Region))
+		if err != nil {
+			panic(err)
+		}
+		svc := ec2.NewFromConfig(cfg)
+
 		if request.RawPath == "/login" {
-			return routeLogin(context, request, data)
+			return routeLogin(context, request, data, svc)
 		}
 	}
 
