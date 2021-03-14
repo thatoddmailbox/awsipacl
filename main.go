@@ -59,6 +59,13 @@ func HandleRequest(context context.Context, request events.APIGatewayV2HTTPReque
 			panic(err)
 		}
 
+		if data.Get("password") != currentConfig.PasswordHash {
+			return jsonResponse(errorResponse{
+				Status: "error",
+				Error:  "Incorrect password.",
+			})
+		}
+
 		// set up the aws sdk
 		cfg, err := awsConfig.LoadDefaultConfig(context, awsConfig.WithRegion(currentConfig.Region))
 		if err != nil {

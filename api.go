@@ -53,13 +53,6 @@ func jsonResponse(data interface{}) (events.APIGatewayV2HTTPResponse, error) {
 }
 
 func routeLogin(context context.Context, request events.APIGatewayV2HTTPRequest, data url.Values, svc *ec2.Client) (events.APIGatewayV2HTTPResponse, error) {
-	if data.Get("password") != currentConfig.PasswordHash {
-		return jsonResponse(errorResponse{
-			Status: "error",
-			Error:  "Incorrect password.",
-		})
-	}
-
 	result, err := svc.DescribeSecurityGroups(context, &ec2.DescribeSecurityGroupsInput{
 		GroupIds: []string{
 			currentConfig.SecurityGroupID,
@@ -109,13 +102,6 @@ func routeLogin(context context.Context, request events.APIGatewayV2HTTPRequest,
 }
 
 func routeAdd(context context.Context, request events.APIGatewayV2HTTPRequest, data url.Values, svc *ec2.Client) (events.APIGatewayV2HTTPResponse, error) {
-	if data.Get("password") != currentConfig.PasswordHash {
-		return jsonResponse(errorResponse{
-			Status: "error",
-			Error:  "Incorrect password.",
-		})
-	}
-
 	ip := data.Get("ip") + "/32"
 	description := data.Get("description")
 
@@ -147,13 +133,6 @@ func routeAdd(context context.Context, request events.APIGatewayV2HTTPRequest, d
 }
 
 func routeDelete(context context.Context, request events.APIGatewayV2HTTPRequest, data url.Values, svc *ec2.Client) (events.APIGatewayV2HTTPResponse, error) {
-	if data.Get("password") != currentConfig.PasswordHash {
-		return jsonResponse(errorResponse{
-			Status: "error",
-			Error:  "Incorrect password.",
-		})
-	}
-
 	ip := data.Get("ip") + "/32"
 
 	_, err := svc.RevokeSecurityGroupIngress(context, &ec2.RevokeSecurityGroupIngressInput{
