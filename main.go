@@ -3,10 +3,12 @@ package main
 import (
 	"context"
 	"embed"
+	"encoding/base64"
 	"errors"
 	"io/fs"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"path"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -22,11 +24,40 @@ var mimeTypes = map[string]string{
 	".css":  "text/css",
 }
 
+func messageResponse(status int, message string) (events.APIGatewayV2HTTPResponse, error) {
+	return events.APIGatewayV2HTTPResponse{
+		StatusCode: status,
+		Headers: map[string]string{
+			"Content-Type": "text/html",
+		},
+		Body: message,
+	}, nil
+}
+
 func HandleRequest(context context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	// check if this looks like an API route
 	if request.RequestContext.HTTP.Method == http.MethodPost {
+		requestType, found := request.Headers["content-type"]
+		if !found || requestType != "application/x-www-form-urlencoded" {
+			return messageResponse(http.StatusBadRequest, "Bad request Content-Type.")
+		}
+
+		body := request.Body
+		if request.IsBase64Encoded {
+			bodyBytes, err := base64.StdEncoding.DecodeString(request.Body)
+			if err != nil {
+				panic(err)
+			}
+			body = string(bodyBytes)
+		}
+
+		data, err := url.ParseQuery(body)
+		if err != nil {
+			panic(err)
+		}
+
 		if request.RawPath == "/login" {
-			return routeLogin(context, request)
+			return routeLogin(context, request, data)
 		}
 	}
 
