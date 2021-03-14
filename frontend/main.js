@@ -65,12 +65,15 @@ function login(callback) {
 }
 
 window.addEventListener("load", function() {
-	document.getElementById("screenPasswordSubmit").addEventListener("click", function() {
+	document.getElementById("screenPasswordLogin").addEventListener("submit", function(e) {
 		password = document.getElementById("screenPasswordInput").value;
 
 		login(function() {
 			screen("Main");
 		});
+
+		e.preventDefault();
+		return false;
 	});
 
 	document.getElementById("screenMainNew").addEventListener("submit", function(e) {
