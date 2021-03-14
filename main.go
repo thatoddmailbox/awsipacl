@@ -68,6 +68,8 @@ func HandleRequest(context context.Context, request events.APIGatewayV2HTTPReque
 
 		if request.RawPath == "/login" {
 			return routeLogin(context, request, data, svc)
+		} else if request.RawPath == "/add" {
+			return routeAdd(context, request, data, svc)
 		}
 	}
 

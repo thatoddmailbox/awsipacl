@@ -8,7 +8,12 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
+
+type statusResponse struct {
+	Status string `json:"status"`
+}
 
 type errorResponse struct {
 	Status string `json:"status"`
@@ -101,4 +106,43 @@ func routeLogin(context context.Context, request events.APIGatewayV2HTTPRequest,
 
 		IPs: ipList,
 	})
+}
+
+func routeAdd(context context.Context, request events.APIGatewayV2HTTPRequest, data url.Values, svc *ec2.Client) (events.APIGatewayV2HTTPResponse, error) {
+	if data.Get("password") != currentConfig.PasswordHash {
+		return jsonResponse(errorResponse{
+			Status: "error",
+			Error:  "Incorrect password.",
+		})
+	}
+
+	ip := data.Get("ip") + "/32"
+	description := data.Get("description")
+
+	_, err := svc.AuthorizeSecurityGroupIngress(context, &ec2.AuthorizeSecurityGroupIngressInput{
+		GroupId: &currentConfig.SecurityGroupID,
+
+		IpPermissions: []types.IpPermission{
+			{
+				FromPort:   currentConfig.Port,
+				ToPort:     currentConfig.Port,
+				IpProtocol: &currentConfig.Protocol,
+				IpRanges: []types.IpRange{
+					{
+						CidrIp:      &ip,
+						Description: &description,
+					},
+				},
+			},
+		},
+	})
+	if err != nil {
+		// panic(err)
+		return jsonResponse(errorResponse{
+			Status: "error",
+			Error:  err.Error(),
+		})
+	}
+
+	return jsonResponse(statusResponse{"ok"})
 }
