@@ -1,4 +1,4 @@
-module github.com/thatoddmailbox/awsipacl/backend
+module github.com/thatoddmailbox/awsipacl
 
 go 1.16
 
