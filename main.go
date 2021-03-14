@@ -76,5 +76,6 @@ func HandleRequest(context context.Context, request events.APIGatewayV2HTTPReque
 }
 
 func main() {
+	loadConfig()
 	lambda.Start(HandleRequest)
 }
