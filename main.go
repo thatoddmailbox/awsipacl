@@ -13,6 +13,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"golang.org/x/crypto/bcrypt"
 
 	awsConfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
@@ -59,7 +60,8 @@ func HandleRequest(context context.Context, request events.APIGatewayV2HTTPReque
 			panic(err)
 		}
 
-		if data.Get("password") != currentConfig.PasswordHash {
+		err = bcrypt.CompareHashAndPassword([]byte(currentConfig.PasswordHash), []byte(data.Get("password")))
+		if err != nil {
 			return jsonResponse(errorResponse{
 				Status: "error",
 				Error:  "Incorrect password.",
