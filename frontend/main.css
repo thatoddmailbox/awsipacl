@@ -10,3 +10,11 @@
 #screenMain .lead {
 	margin-bottom: 0.25rem;
 }
+
+#screenMain table tr td {
+	vertical-align: middle;
+}
+
+#screenMain .screenMainIPActions {
+	width: 0;
+}

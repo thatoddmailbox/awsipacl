@@ -54,6 +54,32 @@ function login(callback) {
 			ipRow.appendChild(ipRowDescription);
 
 			var ipRowActions = document.createElement("td");
+			ipRowActions.classList.add("screenMainIPActions");
+			var ipRowActionDelete = document.createElement("button");
+			ipRowActionDelete.classList.add("btn");
+			ipRowActionDelete.classList.add("btn-sm");
+			ipRowActionDelete.classList.add("btn-danger");
+			ipRowActionDelete.innerText = "Delete";
+			ipRowActionDelete.addEventListener("click", (function(ip) {
+				if (confirm("Really delete " + ip.ip + " (" + ip.description + ")?")) {
+					setLoading(true);
+
+					api("delete", {
+						password: password,
+						ip: ip.ip
+					}, function(data) {
+						setLoading(false);
+
+						if (data.status == "error") {
+							alert(data.error);
+							return;
+						}
+
+						login();
+					});
+				}
+			}).bind(this, ip));
+			ipRowActions.appendChild(ipRowActionDelete);
 			ipRow.appendChild(ipRowActions);
 
 			ipsElement.appendChild(ipRow);
