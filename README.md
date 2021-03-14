@@ -14,4 +14,4 @@ At the top of the Lambda console page, select the "Add trigger" button and selec
 
 Under the "Configuration" tab, select "Triggers", and then open the API Gateway that you just created. From the API Gateway console, select "Routes", and then the "ANY" route. Edit that route, setting its path to "/{proxy+}".
 
-In a terminal, go to this folder and run `GOOS=linux go build .`, followed by `zip awsipacl.zip awsipacl`. Then run `aws lambda update-function-code --function-name FUNCTION-NAME-HERE --zip-file fileb://./backend.zip`, but replace FUNCTION-NAME-HERE with the name of your Lambda function.
+In a terminal, go to this folder and run `GOOS=linux go build .`, followed by `zip awsipacl.zip awsipacl`. Then run `aws lambda update-function-code --function-name FUNCTION-NAME-HERE --zip-file fileb://./awsipacl.zip`, but replace FUNCTION-NAME-HERE with the name of your Lambda function.
