@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io/fs"
 	"io/ioutil"
+	"path"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -13,6 +14,12 @@ import (
 
 //go:embed frontend/*
 var frontend embed.FS
+
+var mimeTypes = map[string]string{
+	".html": "text/html",
+	".js":   "application/javascript",
+	".css":  "text/css",
+}
 
 func HandleRequest(context context.Context, request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	filePath := request.RawPath
@@ -43,10 +50,16 @@ func HandleRequest(context context.Context, request events.APIGatewayV2HTTPReque
 		panic(err)
 	}
 
+	extension := path.Ext(filePath)
+	mimeType, foundMimeType := mimeTypes[extension]
+	if !foundMimeType {
+		mimeType = "application/octet-stream"
+	}
+
 	return events.APIGatewayV2HTTPResponse{
 		StatusCode: 200,
 		Headers: map[string]string{
-			"Content-Type": "text/html",
+			"Content-Type": mimeType,
 		},
 		Body: string(data),
 	}, nil
