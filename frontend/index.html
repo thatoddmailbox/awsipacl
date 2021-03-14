@@ -22,6 +22,7 @@
 		<div id="screenMain" class="container screen hidden">
 			<h2 id="screenMainTitle"></h2>
 			<p id="screenMainDescription" class="lead"></p>
+
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -34,8 +35,18 @@
 
 				</tbody>
 			</table>
+			<p>Your current IP: <strong id="screenMainCurrentIP"></strong></p>
 
-			<p>Current IP: <strong id="screenMainCurrentIP"></strong></p>
+			<form id="screenMainNew">
+				<h4>Add new IP</h4>
+				<div class="mb-3">
+					<input type="text" class="form-control" id="screenMainNewIP" placeholder="New IP" required />
+				</div>
+				<div class="mb-3">
+					<input type="text" class="form-control" id="screenMainNewDescription" placeholder="Description" required />
+				</div>
+				<button type="submit" class="btn btn-primary">Add</button>
+			</form>
 		</div>
 
 		<script src="main.js"></script>

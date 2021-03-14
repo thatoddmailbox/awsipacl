@@ -22,43 +22,76 @@ function screen(name) {
 	document.getElementById("screen" + name).classList.remove("hidden");
 }
 
+function login(callback) {
+	api("login", {
+		password: password
+	}, function(data) {
+		if (data.status == "error") {
+			alert(data.error);
+			return;
+		}
+
+		document.getElementById("screenMainTitle").innerText = data.title;
+		document.getElementById("screenMainDescription").innerText = data.description;
+		document.getElementById("screenMainCurrentIP").innerText = data.clientIP;
+
+		var ipsElement = document.getElementById("screenMainIPs");
+		ipsElement.innerHTML = "";
+		for (var i = 0; i < data.ips.length; i++) {
+			var ip = data.ips[i];
+
+			var ipRow = document.createElement("tr");
+
+			var ipRowIP = document.createElement("td");
+			ipRowIP.innerText = ip.ip;
+			ipRow.appendChild(ipRowIP);
+
+			var ipRowDescription = document.createElement("td");
+			ipRowDescription.innerText = ip.description;
+			ipRow.appendChild(ipRowDescription);
+
+			var ipRowActions = document.createElement("td");
+			ipRow.appendChild(ipRowActions);
+
+			ipsElement.appendChild(ipRow);
+		}
+
+		document.getElementById("screenMainNew").reset();
+
+		if (callback) {
+			callback();
+		}
+	});
+}
+
 window.addEventListener("load", function() {
 	document.getElementById("screenPasswordSubmit").addEventListener("click", function() {
 		password = document.getElementById("screenPasswordInput").value;
 
-		api("login", {
-			password: password
+		login(function() {
+			screen("Main");
+		});
+	});
+
+	document.getElementById("screenMainNew").addEventListener("submit", function(e) {
+		var ip = document.getElementById("screenMainNewIP").value;
+		var description = document.getElementById("screenMainNewDescription").value;
+		console.log(e.target);
+
+		api("add", {
+			password: password,
+			ip: ip,
+			description: description
 		}, function(data) {
 			if (data.status == "error") {
 				alert(data.error);
 				return;
 			}
 
-			document.getElementById("screenMainTitle").innerText = data.title;
-			document.getElementById("screenMainDescription").innerText = data.description;
-			document.getElementById("screenMainCurrentIP").innerText = data.clientIP;
-
-			var ipsElement = document.getElementById("screenMainIPs");
-			for (var i = 0; i < data.ips.length; i++) {
-				var ip = data.ips[i];
-
-				var ipRow = document.createElement("tr");
-
-				var ipRowIP = document.createElement("td");
-				ipRowIP.innerText = ip.ip;
-				ipRow.appendChild(ipRowIP);
-
-				var ipRowDescription = document.createElement("td");
-				ipRowDescription.innerText = ip.description;
-				ipRow.appendChild(ipRowDescription);
-
-				var ipRowActions = document.createElement("td");
-				ipRow.appendChild(ipRowActions);
-
-				ipsElement.appendChild(ipRow);
-			}
-
-			screen("Main");
+			login();
 		});
+
+		e.preventDefault();
+		return false;
 	});
 });
