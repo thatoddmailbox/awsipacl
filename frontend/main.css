@@ -2,3 +2,11 @@
 	margin-top: 1rem;
 	max-width: 500px;
 }
+
+.screen.hidden {
+	display: none;
+}
+
+#screenMain .lead {
+	margin-bottom: 0.25rem;
+}
