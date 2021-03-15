@@ -6,6 +6,8 @@ A web app that lets you manage the IPs of an EC2 Security Group. It runs as an A
 Go to Security Groups in VPC and copy the security group ID.
 
 ## Deployment
+> Eventually, this should probably be replaced by some Terraform files or something similar. For now it's a bunch of manual clicking of things on various AWS consoles.
+
 First, make sure you have Go 1.16 or newer installed. Older versions of Go will not work. You'll also need to install the [AWS CLI version 2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configure it](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
 
 Then, from the Lambda console, create a new function. Select "Author from scratch", give it a name, and select "Go 1.x" as the runtime.
