@@ -1,4 +1,6 @@
 # awsipacl
+A web app that lets you manage the IPs of an EC2 Security Group.
+
 ## Setup
 ## Configuration
 Go to Security Groups in VPC and copy the security group ID.
