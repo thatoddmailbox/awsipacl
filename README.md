@@ -58,3 +58,5 @@ Click "Next: Tags" and don't enter any tags. Give the policy a name (ideally mat
 Now, go to the [API Gateway console](https://console.aws.amazon.com/apigateway/home), and build a new HTTP API. Add your Lambda function as an integration. Give the API the same name as your function. Set the resource path to "/{proxy+}". Leave the rest of the settings as their defaults.
 
 In a terminal, go to this folder and run `GOOS=linux go build .`, followed by `zip awsipacl.zip awsipacl`. Then run `aws lambda update-function-code --function-name FUNCTION-NAME-HERE --zip-file fileb://./awsipacl.zip`, but replace FUNCTION-NAME-HERE with the name of your Lambda function.
+
+At this point, you should be done! Going to your API Gateway's endpoint should result in a "please enter password" screen. If you want, you can go to the API Gateway settings and add a custom domain name. (if you do that, you'll also want to get an HTTPS certificate for your domain from the [ACM console](https://console.aws.amazon.com/acm/home))
