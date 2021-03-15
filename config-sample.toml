@@ -2,6 +2,8 @@ PasswordHash = "asdf"
 
 SecurityGroupID = "sg-some-id-yay"
 Region = "us-east-2"
+Port = 22
+Protocol = "tcp"
 
 Title = "awsipacl"
 Description = "This is a description, wow."
