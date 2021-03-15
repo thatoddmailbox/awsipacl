@@ -42,13 +42,13 @@ In the "Configuration" tab, select "Permissions", and then click on the role und
 			"Effect": "Allow",
 			"Resource": "arn:aws:ec2:*:*:security-group/SECURITY-GROUP-ID-HERE"
 		},
-        {
-            "Action": [
-                "ec2:DescribeSecurityGroups"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        }
+		{
+			"Action": [
+				"ec2:DescribeSecurityGroups"
+			],
+			"Effect": "Allow",
+			"Resource": "*"
+		}
 	]
 }
 ```
