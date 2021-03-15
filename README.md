@@ -5,7 +5,17 @@ It runs as an AWS Lambda function behind an Amazon API Gateway, with usage low e
 
 ## Setup
 ## Configuration
-Go to Security Groups in VPC and copy the security group ID.
+Go to "Security Groups" in the [VPC console](https://console.aws.amazon.com/vpc/home) and find the security group you want to connect with this app. Make a note of its security group ID.
+
+Copy the `config-sample.toml` file in this repository into a new `config.toml` file. The configuration options are:
+
+* `PasswordHash` - the bcrypt password hash, use at the password screen
+* `SecurityGroupID` - the target security group ID
+* `Region` - the AWS region with your security group
+* `Port` - the port to control access to (for example, 22 for SSH)
+* `Protocol` - the protocol (either `tcp` or `udp`) to control access to (for example, `tcp` for SSH)
+* `Title` - the title, which will be displayed at the top of the screen when a user logs in
+* `Description` - the description, which will be displayed under the title when a user logs in
 
 ## Deployment
 > Eventually, this should probably be replaced by some Terraform files or something similar. For now it's a bunch of manual clicking of things on various AWS consoles.
