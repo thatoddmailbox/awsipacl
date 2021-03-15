@@ -1,5 +1,5 @@
 # awsipacl
-A web app that lets you manage the IPs of an EC2 Security Group.
+A web app that lets you manage the IPs of an EC2 Security Group. It runs as an AWS Lambda function behind an Amazon API Gateway, with usage low enough to effectively be free. (less than a cent per month)
 
 ## Setup
 ## Configuration
