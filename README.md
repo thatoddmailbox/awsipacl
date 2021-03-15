@@ -6,7 +6,7 @@ A webapp that lets you manage the IPs associated with a specific port in an AWS 
 It runs as an AWS Lambda function behind an Amazon API Gateway, with usage low enough to effectively be free. (less than a cent per month)
 
 ## Setup
-## Configuration
+### Configuration
 Go to "Security Groups" in the [VPC console](https://console.aws.amazon.com/vpc/home) and find the security group you want to connect with this app. Make a note of its security group ID.
 
 Copy the `config-sample.toml` file in this repository into a new `config.toml` file. The configuration options are:
@@ -19,7 +19,7 @@ Copy the `config-sample.toml` file in this repository into a new `config.toml` f
 * `Title` - the title, which will be displayed at the top of the screen when a user logs in
 * `Description` - the description, which will be displayed under the title when a user logs in
 
-## Deployment
+### Deployment
 > Eventually, this should probably be replaced by some Terraform files or something similar. For now it's a bunch of manual clicking of things on various AWS consoles.
 
 First, make sure you have Go 1.16 or newer installed. Older versions of Go will not work. You'll also need to install the [AWS CLI version 2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configure it](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
