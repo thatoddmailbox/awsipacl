@@ -1,7 +1,7 @@
 # awsipacl
 <img src="./screenshot.png" width="50%" />
 
-A webapp that lets you manage the IPs associated with a specific port in an AWS VPC security group. For example, you could use this to control which IP addresses can SSH into an EC2 server.
+A webapp that lets you manage the IPs associated with a specific port in an AWS VPC security group. For example, you could control which IP addresses can SSH into an EC2 server.
 
 It runs as an AWS Lambda function behind an Amazon API Gateway, with usage low enough to effectively be free. (less than a cent per month)
 
