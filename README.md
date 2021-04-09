@@ -11,7 +11,7 @@ Go to "Security Groups" in the [VPC console](https://console.aws.amazon.com/vpc/
 
 Copy the `config-sample.toml` file in this repository into a new `config.toml` file. The configuration options are:
 
-* `PasswordHash` - the bcrypt password hash, use at the password screen
+* `PasswordHash` - the bcrypt password hash, used at the password screen
 * `SecurityGroupID` - the target security group ID
 * `Region` - the AWS region with your security group
 * `Port` - the port to control access to (for example, 22 for SSH)
