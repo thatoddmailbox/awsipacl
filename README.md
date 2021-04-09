@@ -65,7 +65,9 @@ At this point, you should be done! Going to your API Gateway's endpoint should r
 
 ## Development
 To upload changes, just do the same build and update steps from the "deployment" section, which have been repeated here:
+
 * `GOOS=linux go build .`
 * `zip awsipacl.zip awsipacl`
 * `aws lambda update-function-code --function-name FUNCTION-NAME-HERE --zip-file fileb://./awsipacl.zip`
+
 Make sure to replace FUNCTION-NAME-HERE with the name of your Lambda function!
