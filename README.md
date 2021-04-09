@@ -70,4 +70,4 @@ To upload changes, just do the same build and update steps from the "deployment"
 * `zip awsipacl.zip awsipacl`
 * `aws lambda update-function-code --function-name FUNCTION-NAME-HERE --zip-file fileb://./awsipacl.zip`
 
-Make sure to replace FUNCTION-NAME-HERE with the name of your Lambda function!
+Make sure to replace FUNCTION-NAME-HERE with the name of your Lambda function! Also, note that everything in the `frontend/` folder will be automatically embedded into the binary and uploaded to Lambda.
