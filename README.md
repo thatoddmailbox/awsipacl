@@ -28,7 +28,7 @@ Then, from the [Lambda console](https://console.aws.amazon.com/lambda/home), cre
 
 Open up the newly-created function, and, in the "Code" tab, edit the "Runtime settings". Set the "Handler" to "awsipacl". Also, in the "Configuration" tab, edit the memory to 128 MB.
 
-In the "Configuration" tab, select "Permissions", and then click on the role under "Role name". This will open a new tab in the IAM console. From there, click "Attach policies", then "Create policy" (this will open a new tab). Select the JSON tab and paste the following in (MAKE SURE TO REPLACE `SECURITY-GROUP-ID-HERE` with your security group ID, including the `sg-` prefix):
+In the "Configuration" tab, select "Permissions", and then click on the role under "Role name". This will open a new tab in the IAM console. From there, click "Add permissions", then "Create inline policy". Select the JSON policy editor and paste the following in (MAKE SURE TO REPLACE `SECURITY-GROUP-ID-HERE` with your security group ID, including the `sg-` prefix):
 
 ```json
 {
@@ -55,7 +55,7 @@ In the "Configuration" tab, select "Permissions", and then click on the role und
 }
 ```
 
-Click "Next: Tags" and don't enter any tags. Give the policy a name (ideally matching the name of your Lambda function) and click "Create policy". Close the tab you just used and go back to the "Attach Permissions" screen. From here, search for the policy you just made and attach it.
+Click "Next". Give the policy a name (ideally matching the name of your Lambda function) and click "Create policy". You should now see your policy attached to the role.
 
 Now, go to the [API Gateway console](https://console.aws.amazon.com/apigateway/home), and build a new HTTP API. Add your Lambda function as an integration. Give the API the same name as your function. Set the resource path to "/{proxy+}". Leave the rest of the settings as their defaults.
 
