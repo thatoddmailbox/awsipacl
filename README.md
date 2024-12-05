@@ -24,7 +24,7 @@ Copy the `config-sample.toml` file in this repository into a new `config.toml` f
 
 First, make sure you have Go 1.16 or newer installed. Older versions of Go will not work. You'll also need to install the [AWS CLI version 2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configure it](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
 
-Then, from the [Lambda console](https://console.aws.amazon.com/lambda/home), create a new function. Select "Author from scratch", give it a name, and select "Go 1.x" as the runtime.
+Then, from the [Lambda console](https://console.aws.amazon.com/lambda/home), create a new function. Select "Author from scratch", give it a name, and select "Amazon Linux 2" (OS-only runtime) as the runtime. You can keep architecture as "x86_64".
 
 Open up the newly-created function, and, in the "Code" tab, edit the "Runtime settings". Set the "Handler" to "awsipacl". Also, in the "Configuration" tab, edit the memory to 128 MB.
 
